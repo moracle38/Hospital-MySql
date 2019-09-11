@@ -1,8 +1,7 @@
-show databases;
 CREATE DATABASE hospitalteste;
 use hospitalteste;
-show databases;
 SET SQL_SAFE_UPDATES = 0;
+
 create table Paciente (
 	idPaciente int NOT NULL AUTO_INCREMENT,
     Nome varchar(45) NOT NULL,
@@ -19,15 +18,11 @@ create table Paciente (
     PRIMARY KEY (idPaciente)
 );
 
-select * from Paciente;
-
 create table Departamento (
 	idDepartamento int NOT NULL AUTO_INCREMENT,
     NomeDepartamento varchar(45) NOT NULL UNIQUE,
     PRIMARY KEY (idDepartamento)
 );
-
-select * from Departamento;
     
 create table Consultorio (
 	idConsultorio int NOT NULL AUTO_INCREMENT,
@@ -37,23 +32,17 @@ create table Consultorio (
     FOREIGN KEY (idDepartamento) REFERENCES Departamento(idDepartamento)
 );
 
-select * from Consultorio;
-
 create table TipoExame (
 	idTipoExame int NOT NULL AUTO_INCREMENT,
     NomeExame varchar(45) NOT NULL UNIQUE,
     PRIMARY KEY (idTipoExame)
 );
 
-select * from TipoExame;
-
 create table Especialidade (
 	idEspecialidade int NOT NULL AUTO_INCREMENT,
     NomeEspecialidade varchar(45) NOT NULL UNIQUE,
     PRIMARY KEY (idEspecialidade)
 );
-
-select * from Especialidade;
 
 create table Medico (
 	idMedico int NOT NULL AUTO_INCREMENT,
@@ -72,16 +61,12 @@ create table Medico (
     PRIMARY KEY (idMedico)
 );
 
-select * from Medico;
-
 create table Medico_tem_Especialidade (
 	idMedico int,
     idEspecialidade int,
     FOREIGN KEY (idMedico) REFERENCES Medico (idMedico),
     FOREIGN KEY (idEspecialidade) REFERENCES Especialidade (idEspecialidade)
 );
-
-select * from Medico_tem_Especialidade;
 
 create table Funcionario (
 	idFuncionario int NOT NULL AUTO_INCREMENT,
@@ -101,8 +86,6 @@ create table Funcionario (
     FOREIGN KEY (idDepartamento) REFERENCES Departamento (idDepartamento)
 );
 
-select * from Funcionario;
-
 create table Consulta (
 	idConsulta int NOT NULL AUTO_INCREMENT,
     Data date NOT NULL,
@@ -117,8 +100,6 @@ create table Consulta (
     FOREIGN KEY (idConsultorio) REFERENCES Consultorio (idConsultorio)
 );
 
-select * from Consulta;
-
 create table Exame (
 	idExame int NOT NULL AUTO_INCREMENT,
     Data date NOT NULL,
@@ -132,122 +113,116 @@ create table Exame (
     FOREIGN KEY (idTipoExame) REFERENCES TipoExame (idTipoExame)
 );
 
-
 alter table Funcionario
 	drop column Logradouro;
 alter table Funcionario
 	add column Logradouro varchar(3) NOT NULL;
-describe Funcionario;
+-- describe Funcionario;
 
 alter table Medico
 	drop column Logradouro;
 alter table Medico
 	add column Logradouro varchar(3) NOT NULL;
-describe Medico;
+-- describe Medico;
 
 alter table Paciente
 	drop column Logradouro;
 alter table Paciente
 	add column Logradouro varchar(3);
-describe Paciente;
+-- describe Paciente;
 
 insert into TipoExame (idTipoExame, NomeExame)
 	values (1, "Teste");
 insert into TipoExame (NomeExame)
 	values("Workou");
-select * from TipoExame;
 
 insert into Especialidade (NomeEspecialidade)
 	values("Cardiologista"),("Terraplanista"),("Me deleta"),("Pode deletar");
-select * from Especialidade;
 
 insert into Departamento (NomeDepartamento)
 	values ("Departamento Maneiro");
-select * from Departamento;
 
 insert into Consultorio (NumeroConsultorio)
 	values (123),(42),(12);
-select * from Consultorio;
+
 insert into Consultorio(NumeroConsultorio, idDepartamento)
 	values (432,1);
-select * from Consultorio;
 
 insert into Medico (Nome, Sobrenome, DataNascimento, CPF, CRM, DDD, Telefone, CEP, Endereco, Numero, Email,Logradouro)
-	values("Mateus","Nicolas","1998-08-21","09028824901","423","41","992327608","80730320","Dona Alice Tibiriçá","405","mateusnicolasup@gmail.com","R");
-select * from Medico;
+	values("Mateus","Nicolas","1998-08-21","09028824901","423","41","992327608","80730320","Dona Alice Tibiriçá","405","mateusnicolasup@gmail.com","R"),
+    ("Anthony", "Thiago da Mota","1978-03-02","27871684698","422","95","28667704","69309630","Rua das Rosas","280","anthonythiagodamota_@deca.com.br","AC"),
+    ("Celso","Porta","2005-06-08","91699515000","122","11","26730166","8960000","Rua Lavouras","401","rrafaelviniciusmateusassuncao@novadeliveri.com.br","R"),
+    ("Heloisa Antônia", "Natália de Paula","1976-04-07","48030659938","123","71","35634275","40430240","Rua Almirante Barroso","137","hheloisaantonianataliadepaula@eldor.it","R");
 
 insert into Paciente (Nome,Sobrenome, DataNascimento)
 	values("Flavio","Branco","1960-09-04"),("Abner","Landim","1998-12-17"),("Lucas","Okada","1998-03-18");
-select * from Paciente
-	where 1=1
-    and NOT Nome = "Flavio";
 
 insert into Funcionario (Nome, Sobrenome, DataNascimento, CPF, DDD, Telefone, CEP, Endereco, Numero, Email, idDepartamento, Logradouro)
 	values ("Carlos", "Kuretzki", "1960-04-08","54887612095","41","99140277","89600000","Algum canto","32", "carlos@carlos.pro.br",1,"R");
-select * from Funcionario;
 
 insert into Exame (Data, Hora, idPaciente, idMedico, idTipoExame)
-	values("2019-09-12","19:00:00",1,1,1);
-select * from Exame;
+	values("2019-09-12","19:00:00",1,1,1),
+    ("2011-04-06","18:00:00",1,2,1),
+    ("2013-04-02","18:04:00",1,3,1),
+    ("2016-01-04","18:30:05",1,4,1);
 
 insert into Consulta (Data, Hora, Historico, idPaciente, idConsultorio, idMedico)
 	values("2019-09-05","19:00:00","Câncer na bundinha",1,1,1),("2009-09-05","19:00:00","Iaí Carlos",1,1,1),("2009-09-10","19:00:00","Tudo beleza?",1,1,1);
-select * from Consulta;
 
+select * from medico_tem_especialidade;
 update Funcionario
 	set Endereco = "Casa dele ué"
 	where 1=1
 	and Nome = "Carlos"
 	and Sobrenome = "Kuretzki";
-select * from Funcionario;
 
 update Paciente
 	set CPF = "09028824901"
     where 1=1
     and Nome = "Flávio"
     and Sobrenome = "Branco";
-select * from Paciente;
 
 update Especialidade
 	set NomeEspecialidade = "Comer cu de quem da update sem where"
     where 1=1
     and idEspecialidade = 2;
-select * from Especialidade;
 
 delete from Especialidade
 	where 1=1
     and NomeEspecialidade = "Comer cu de quem da update sem where";
-select * from Especialidade;
 
 delete from Paciente
 	where 1=1
     and Nome = "Lucas"
     or Sobrenome = "Landim";
-select * from Paciente;
 
 delete from Consultorio
 	where 1=1
     and NumeroConsultorio BETWEEN 10 and 100;
-select * from Consultorio;
 
-select Historico from Consulta
-	where 1=1
-    and Data BETWEEN "2009-09-05" and "2009-09-10";
-    
 delete from Especialidade
 	where 1=1
     and NomeEspecialidade LIKE "%delet%";
-select * from Especialidade
-	order by idEspecialidade desc;
     
+CREATE VIEW ConsultorioDepartamento AS
+SELECT Departamento.idDepartamento,Departamento.NomeDepartamento, Consultorio.idConsultorio,Consultorio.NumeroConsultorio
+FROM Departamento
+INNER JOIN Consultorio
+ON Consultorio.idDepartamento = Departamento.idDepartamento;
 
-select * from Departamento
-    INNER JOIN Consultorio 
-    ON Departamento.idDepartamento = Consultorio.idDepartamento;
+select * from ConsultorioDepartamento;
 
-select * from Consulta
-	RIGHT JOIN Medico
-    ON Consulta.idMedico = Medico.idMedico;
+
+CREATE view MedicoExamePaciente AS
+select Medico.[idMedico,Sobrenome], Exame.Data,Exame.Hora,Paciente.*
+from Exame
+RIGHT JOIN Medico ON Medico.idMedico = Exame.idMedico
+RIGHT JOIN Paciente ON Paciente.idPaciente = Exame.idPaciente;
+
+
+select * from MedicoExamePaciente;
+
+
 
 
 
