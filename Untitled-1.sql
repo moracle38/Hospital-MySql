@@ -360,6 +360,10 @@ select
 from
   MedicoExamePaciente;
 select
+  *
+from
+  Medico;
+select
   CONCAT (NomeMedico, ', ', SobrenomeMedico)
 from
   Medico;
